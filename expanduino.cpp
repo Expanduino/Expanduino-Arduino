@@ -21,11 +21,11 @@ uint8_t Expanduino::getNumSubdevices() {
   }
   return numSubdevices;
 }
-
+ 
 //Gets the n-th subdevice
 ExpanduinoSubdevice* Expanduino::getDevice(uint8_t devNum)  {
   ExpanduinoSubdevice* dev = &this->metaSubdevice;
-  for (int i=1; i<devNum && dev; i++) {
+  for (int i=0; i<devNum && dev; i++) {
     dev = dev->next;
   }
   return dev;
