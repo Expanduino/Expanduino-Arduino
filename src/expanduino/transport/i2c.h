@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expanduino.h"
+#include "../expanduino.h"
 
 class PrintBuffer : public Print {
 public:

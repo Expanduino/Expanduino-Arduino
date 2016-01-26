@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expanduino.h"
+#include "../expanduino.h"
 
 enum ExpanduinoCommandLed {
   EXPANDUINO_CMD_LED_NUM_LEDS,

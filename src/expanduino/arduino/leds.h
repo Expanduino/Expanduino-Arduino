@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expanduino-leds.h"
+#include "../classes/leds.h"
 
 typedef struct {
   int pin;

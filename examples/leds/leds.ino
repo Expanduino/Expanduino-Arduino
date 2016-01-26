@@ -1,5 +1,6 @@
-#include <expanduino-i2c.h>
-#include <expanduino-leds-arduino.h>
+#include <expanduino.h>
+#include <expanduino/transport/i2c.h>
+#include <expanduino/arduino/leds.h>
 
 ArduinoLed leds[] = {
   {.pin= 9, .name="expanduino:red:gpio9"},

@@ -1,4 +1,4 @@
-#include "expanduino-leds-arduino.h"
+#include "leds.h"
 #include <Arduino.h>
 
 ExpanduinoSubdeviceLedsArduino::ExpanduinoSubdeviceLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds) 

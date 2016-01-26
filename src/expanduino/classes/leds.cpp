@@ -1,4 +1,4 @@
-#include "expanduino-leds.h"
+#include "leds.h"
 
 ExpanduinoSubdeviceLeds::ExpanduinoSubdeviceLeds(Expanduino& container) 
 : ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LED)
