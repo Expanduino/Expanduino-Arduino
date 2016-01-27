@@ -77,7 +77,7 @@ bool ExpanduinoI2C_::clearInterruptStatus() {
 }
 
 void ExpanduinoI2C_::getPhysicalLocation(Print& out) {
-  out.print(F("expanduino-i2c@0x"));
+  out.print("expanduino-i2c@");
   out.print(address, HEX);
 }
 

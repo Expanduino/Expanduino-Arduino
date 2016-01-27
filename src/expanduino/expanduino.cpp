@@ -41,23 +41,13 @@ void Expanduino::dispatch(uint8_t cmd, Stream& request, Print& response) {
 }
 
 void Expanduino::getVendorName(Print& out) {
-  if (vendorName) {
-    out.print(vendorName);
-  } else {
-    out.print(F("Generic"));
-  }
+  out.print(vendorName ? vendorName : "Generic");
 }
 void Expanduino::getProductName(Print& out) {
-  if (productName) {
-    out.print(productName);
-  } else {
-    out.print(F("Expanduino"));
-  }
+  out.print(productName ? productName : "Expanduino");
 }
 void Expanduino::getSerialNumber(Print& out) {
-  if (serialNumber) {
-    out.print(serialNumber);
-  }
+  out.print(serialNumber ? serialNumber : "N/A");
 }
 
 // class ExpanduinoSubdevice ======================================================
