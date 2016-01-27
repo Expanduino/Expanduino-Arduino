@@ -1,7 +1,7 @@
 #include "leds.h"
 
-ExpanduinoSubdeviceLeds::ExpanduinoSubdeviceLeds(Expanduino& container) 
-: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LED)
+ExpanduinoSubdeviceLeds::ExpanduinoSubdeviceLeds(Expanduino& container, const char* name) 
+: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LED, name, "leds")
 { }
 
 
@@ -15,7 +15,7 @@ void ExpanduinoSubdeviceLeds::dispatch(uint8_t opcode, Stream& request, Print& r
     
     case EXPANDUINO_CMD_LED_NAME: {
       if (request.available() >= 1) {
-        int ledNum = request.read(); 
+        uint8_t ledNum = request.read(); 
         if (ledNum < getNumLeds()) {
           getLedName(ledNum, response);
         }
@@ -25,7 +25,7 @@ void ExpanduinoSubdeviceLeds::dispatch(uint8_t opcode, Stream& request, Print& r
     
     case EXPANDUINO_CMD_LED_GET_BRIGHTNESS: {
       if (request.available() >= 1) {
-        int ledNum = request.read(); 
+        uint8_t ledNum = request.read(); 
         if (ledNum < getNumLeds()) {
           response.write(getBrightness(ledNum));
         }
@@ -35,8 +35,8 @@ void ExpanduinoSubdeviceLeds::dispatch(uint8_t opcode, Stream& request, Print& r
     
     case EXPANDUINO_CMD_LED_SET_BRIGHTNESS: {
       if (request.available() >= 2) {
-        int ledNum = request.read(); 
-        int brightness = request.read();
+        uint8_t ledNum = request.read(); 
+        uint8_t brightness = request.read();
         if (ledNum < getNumLeds()) {
           setBrightness(ledNum, brightness);
         }

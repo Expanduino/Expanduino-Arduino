@@ -5,10 +5,7 @@
 // class Expanduino ============================================================
 
 Expanduino::Expanduino()
-: metaSubdevice(*this),
-  vendorName("Generic"),
-  productName("Expanduino"),
-  serialNumber("0000")
+: metaSubdevice(*this)
 { }
 
 
@@ -36,8 +33,6 @@ void Expanduino::dispatch(uint8_t cmd, Stream& request, Print& response) {
   uint8_t devNum = (cmd >> 4) & 0x0F;
   ExpanduinoSubdevice* dev = getDevice(devNum);
   if (!dev) { //Invalid devNum
-    Serial.print("Called Invalid subdevice #");
-    Serial.println(devNum, HEX);
     return;
   }
   
@@ -45,11 +40,32 @@ void Expanduino::dispatch(uint8_t cmd, Stream& request, Print& response) {
   dev->dispatch(opcode, request, response);
 }
 
+void Expanduino::getVendorName(Print& out) {
+  if (vendorName) {
+    out.print(vendorName);
+  } else {
+    out.print(F("Generic"));
+  }
+}
+void Expanduino::getProductName(Print& out) {
+  if (productName) {
+    out.print(productName);
+  } else {
+    out.print(F("Expanduino"));
+  }
+}
+void Expanduino::getSerialNumber(Print& out) {
+  if (serialNumber) {
+    out.print(serialNumber);
+  }
+}
+
 // class ExpanduinoSubdevice ======================================================
 
-ExpanduinoSubdevice::ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdeviceType devType) 
+ExpanduinoSubdevice::ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdeviceType devType, const char* name, const char* physPrefix) 
 : container(container),
   devType(devType),
+  physPrefix(physPrefix),
   isInterrupted(false),
   next(nullptr),
   devNum(0)
@@ -63,6 +79,18 @@ ExpanduinoSubdevice::ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdev
     lastSubdevice->next = this;
     this->devNum = lastSubdevice->devNum + 1;
   }
+}
+
+void ExpanduinoSubdevice::getName(Print& out) {
+  out.print(name);
+}
+
+void ExpanduinoSubdevice::getPhysicalLocation(Print& out) {
+  container.getPhysicalLocation(out);
+  out.print("/");
+  out.print(physPrefix);
+  out.print("@");
+  out.print(devNum);
 }
 
 void ExpanduinoSubdevice::requestInterrupt() {
@@ -80,8 +108,8 @@ bool ExpanduinoSubdevice::clearInterruptStatus() {
 
 // class MetaExpanduinoSubdevice ===============================================
 
-MetaExpanduinoSubdevice::MetaExpanduinoSubdevice(Expanduino& container) 
-: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_META)
+MetaExpanduinoSubdevice::MetaExpanduinoSubdevice(Expanduino& container)
+: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_META, "Meta", "meta")
 { }
 
 
@@ -124,25 +152,49 @@ void MetaExpanduinoSubdevice::dispatch(uint8_t opcode, Stream& request, Print& r
       if (request.available()) {
         ExpanduinoSubdevice* dev = container.getDevice(request.read());
         if (dev) {
-          devType = dev->devType;
+          response.write(dev->devType);
         }
-      }
-      response.write(devType);
+      }     
       break;
     }
-      
+    
+    EXPANDUINO_CMD_META_DEVICE_NAME: {
+      if (request.available()) {
+        ExpanduinoSubdevice* dev = container.getDevice(request.read());
+        if (dev) {
+          dev->getName(response);
+        }
+      }
+      break;
+    }
+    
+    EXPANDUINO_CMD_META_DEVICE_PHYS: {
+      if (request.available()) {
+        ExpanduinoSubdevice* dev = container.getDevice(request.read());
+        if (dev) {
+          dev->getPhysicalLocation(response);
+        }
+      }
+      break;
+    }
+    
     case EXPANDUINO_CMD_META_VENDOR_NAME: {
-      response.write(container.vendorName);
+      container.getVendorName(response);
       break;
     }
       
     case EXPANDUINO_CMD_META_PRODUCT_NAME: {
-      response.write(container.productName);
+      container.getProductName(response);
       break;
     }
       
     case EXPANDUINO_CMD_META_SERIAL_NUMBER: {
-      response.write(container.serialNumber);
+      container.getSerialNumber(response);
+      break;
+    }
+  
+    case EXPANDUINO_CMD_META_PHYS: {
+      container.getPhysicalLocation(response);
       break;
     }
   }

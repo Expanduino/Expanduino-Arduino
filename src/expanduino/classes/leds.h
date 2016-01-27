@@ -11,7 +11,7 @@ enum ExpanduinoCommandLed {
 
 class ExpanduinoSubdeviceLeds : public ExpanduinoSubdevice {
 public:
-  ExpanduinoSubdeviceLeds(Expanduino& container); 
+  ExpanduinoSubdeviceLeds(Expanduino& container, const char* name="Leds"); 
   virtual void dispatch(uint8_t opcode, Stream& request, Print& response);
   virtual void reset();
   virtual void getLedName(uint8_t ledNum, Print& name);

@@ -2,11 +2,13 @@
 #include <expanduino/transport/i2c.h>
 #include <expanduino/arduino/leds.h>
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
 ArduinoLed leds[] = {
   {.pin= 9, .name="expanduino:red:gpio9"},
   {.pin=10, .name="expanduino:green:gpio10"}
 };
-ExpanduinoSubdeviceLedsArduino expanduinoLeds(ExpanduinoI2C, sizeof(leds)/sizeof(*leds), leds);
+ExpanduinoSubdeviceLedsArduino expanduinoLeds(ExpanduinoI2C, ARRAY_SIZE(leds), leds);
 
 
 void setup() {

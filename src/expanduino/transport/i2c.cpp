@@ -48,11 +48,12 @@ void ExpanduinoI2C_::wireOnRequest() {
 //   Serial.println();
 }
 
-void ExpanduinoI2C_::begin(uint8_t address, int interruptPin) {
+void ExpanduinoI2C_::begin(int address, int interruptPin) {
   this->interruptPin = interruptPin;
   pinMode(interruptPin, OUTPUT);
   digitalWrite(interruptPin, false);
   
+  this->address = address;
   Wire.begin(address);
   Wire.onReceive(ExpanduinoI2C_::wireOnReceive);
   Wire.onRequest(ExpanduinoI2C_::wireOnRequest);
@@ -73,6 +74,11 @@ bool ExpanduinoI2C_::clearInterruptStatus() {
   bool ret = digitalRead(interruptPin);
   digitalWrite(interruptPin, false);
   return ret;
+}
+
+void ExpanduinoI2C_::getPhysicalLocation(Print& out) {
+  out.print(F("expanduino-i2c@0x"));
+  out.print(address, HEX);
 }
 
 ExpanduinoI2C_ ExpanduinoI2C;
