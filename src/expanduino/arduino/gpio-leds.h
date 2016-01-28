@@ -8,11 +8,11 @@ typedef struct {
   uint8_t brightness;
 } ArduinoLed;
 
-class ExpanduinoSubdeviceLedsArduino : public ExpanduinoSubdeviceLeds {
+class ExpanduinoSubdeviceGpioLedsArduino : public ExpanduinoSubdeviceLeds {
   int numLeds;
   ArduinoLed* leds;
 public:
-  ExpanduinoSubdeviceLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds);
+  ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds);
   virtual uint8_t getNumLeds();
   virtual uint8_t getBrightness(uint8_t ledNum);
   virtual void setBrightness(uint8_t ledNum, uint8_t brightness);

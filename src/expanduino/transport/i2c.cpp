@@ -17,15 +17,10 @@ void ExpanduinoI2C_::wireOnReceive(int _) {
     return;
   }
   uint8_t cmd = Wire.read();
-  
 
-  uint8_t len;  
+  uint8_t len = 0;  
   if (Wire.available()) {
     len = Wire.read();
-  }
-  if (len != Wire.available()) {
-    //I2C message length is inconsistent;
-    return;
   }
     
   ExpanduinoI2C.dispatch(cmd, Wire, wireOutputBuffer);
@@ -37,13 +32,13 @@ void ExpanduinoI2C_::wireOnReceive(int _) {
 
 char meh[] = {2, 65, 66, 0};
 void ExpanduinoI2C_::wireOnRequest() {
-//     Wire.write(meh, 4);
-//     Serial.println("B");
-    Wire.write(wireOutputBuffer.buffer.data, wireOutputBuffer.buffer.len + 1);
-//   Serial.print("B");
+  Wire.write(wireOutputBuffer.buffer.data, wireOutputBuffer.buffer.len + 1);
+
+//   Serial.print(">>");
 //   for (int i=0; i<wireOutputBuffer.buffer.len + 1; i++) {
 //     Serial.print(" ");
-//     Serial.print(wireOutputBuffer.buffer.data[i]);
+//     Serial.print(wireOutputBuffer.buffer.data[i] / 16, HEX);
+//     Serial.print(wireOutputBuffer.buffer.data[i] % 16, HEX);
 //   }
 //   Serial.println();
 }
@@ -53,7 +48,6 @@ void ExpanduinoI2C_::begin(int address, int interruptPin) {
   pinMode(interruptPin, OUTPUT);
   digitalWrite(interruptPin, false);
   
-  this->address = address;
   Wire.begin(address);
   Wire.onReceive(ExpanduinoI2C_::wireOnReceive);
   Wire.onRequest(ExpanduinoI2C_::wireOnRequest);
@@ -74,11 +68,6 @@ bool ExpanduinoI2C_::clearInterruptStatus() {
   bool ret = digitalRead(interruptPin);
   digitalWrite(interruptPin, false);
   return ret;
-}
-
-void ExpanduinoI2C_::getPhysicalLocation(Print& out) {
-  out.print("expanduino-i2c@");
-  out.print(address, HEX);
 }
 
 ExpanduinoI2C_ ExpanduinoI2C;

@@ -13,14 +13,12 @@ public:
 
 class ExpanduinoI2C_ : public Expanduino {
   int interruptPin;
-  int address;
 public:
   void begin(int address, int interruptPin);
   void end();
   
   virtual void requestInterrupt();
   virtual bool clearInterruptStatus();
-  virtual void getPhysicalLocation(Print& out);
   
   static void wireOnReceive(int howMany);
   static void wireOnRequest();
