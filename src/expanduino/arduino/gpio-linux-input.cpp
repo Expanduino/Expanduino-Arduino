@@ -32,8 +32,18 @@ const LinuxInputId& ExpanduinoSubdeviceGpioLinuxInputArduino::getLinuxInputId() 
 uint8_t ExpanduinoSubdeviceGpioLinuxInputArduino::getNumComponents() {
   return numComponents;
 }
-const LinuxInputComponentType& ExpanduinoSubdeviceGpioLinuxInputArduino::getComponentType(uint8_t componentNum) {
+LinuxInputComponentType ExpanduinoSubdeviceGpioLinuxInputArduino::getComponentType(uint8_t componentNum) {
   return components[componentNum].type;
+}
+
+LinuxInputAbsoluteComponentConfig ExpanduinoSubdeviceGpioLinuxInputArduino::getAbsoluteComponentConfig(uint8_t componentNum) {
+  LinuxInputAbsoluteComponentConfig ret = {
+    .max=1023, //Default resolution on arduinos. 
+    .min=0,
+    .fuzz=0,
+    .flat=0
+  };
+  return ret;
 }
 
 int32_t ExpanduinoSubdeviceGpioLinuxInputArduino::getValue(uint8_t componentNum) {
@@ -67,7 +77,6 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::setValue(uint8_t componentNum, in
     
     //pwm-beeper.c
     case EV_SND: {
-      Serial.print(" SND! ");
       if (comp.type.code == SND_TONE) {
         if (value > 0) {
           tone(comp.pin, value);

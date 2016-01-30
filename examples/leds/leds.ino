@@ -19,10 +19,13 @@ LinuxInputId input_id = {
 };
 ArduinoGpioLinuxInputComponent inputs[] = {
   {.pin= 5, .type={.type=EV_SND, .code=SND_BELL}},
-  {.pin= 7, .type={.type=EV_ABS, .code=ABS_X}},
-  {.pin= 8, .type={.type=EV_ABS, .code=ABS_Y}},
-  {.pin= 9, .type={.type=EV_LED, .code=LED_NUML}},
-  {.pin=10, .type={.type=EV_LED, .code=LED_CAPSL}}
+  {.pin=A2, .type={.type=EV_ABS, .code=ABS_X}},
+  {.pin=A3, .type={.type=EV_ABS, .code=ABS_Y}},
+//  {.pin= 9, .type={.type=EV_LED, .code=LED_NUML}},
+//  {.pin=10, .type={.type=EV_LED, .code=LED_CAPSL}}
+  {.pin= 9, .type={.type=EV_KEY, .code=BTN_LEFT}},
+  {.pin=10, .type={.type=EV_KEY, .code=BTN_LEFT}}
+
 };
 ExpanduinoSubdeviceGpioLinuxInputArduino expanduinoLinuxInput(ExpanduinoI2C, input_id, ARRAY_SIZE(inputs), inputs);
 

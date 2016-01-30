@@ -1,4 +1,5 @@
 #include "linux-input.h"
+#include <Arduino.h>
 
 ExpanduinoSubdeviceLinuxInput::ExpanduinoSubdeviceLinuxInput(Expanduino& container, const char* name, const char* shortName) 
 : ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LINUX_INPUT, name, shortName)
@@ -23,15 +24,48 @@ void ExpanduinoSubdeviceLinuxInput::dispatch(uint8_t opcode, Stream& request, Pr
       break;
     }
     
-    case EXPANDUINO_CMD_LINUX_INPUT_GET_COMPONENT_TYPE: {
+    case EXPANDUINO_CMD_LINUX_INPUT_COMPONENT_TYPE: {
       if (request.available() >= 1) {
         uint8_t componentNum = request.read(); 
         if (componentNum < getNumComponents()) {
-          const LinuxInputComponentType& type = getComponentType(componentNum);
+          const LinuxInputComponentType type = getComponentType(componentNum);
           response.write((uint8_t)(type.type >> 8));
           response.write((uint8_t)(type.type >> 0));
           response.write((uint8_t)(type.code >> 8));
           response.write((uint8_t)(type.code >> 0));
+        }
+      }
+      break;
+    }
+    
+    case EXPANDUINO_CMD_LINUX_INPUT_COMPONENT_ABS_INFO: {
+      if (request.available() >= 1) {
+        uint8_t componentNum = request.read(); 
+        if (componentNum < getNumComponents() && getComponentType(componentNum).type == EV_ABS) {
+          const LinuxInputAbsoluteComponentConfig config = getAbsoluteComponentConfig(componentNum);
+          Serial.println(config.max);
+          response.write((uint8_t)(config.max >> 24));
+          response.write((uint8_t)(config.max >> 16));
+          response.write((uint8_t)(config.max >>  8));
+          response.write((uint8_t)(config.max >>  0));
+          
+          Serial.println(config.min);
+          response.write((uint8_t)(config.min >> 24));
+          response.write((uint8_t)(config.min >> 16));
+          response.write((uint8_t)(config.min >>  8));
+          response.write((uint8_t)(config.min >>  0));
+          
+          Serial.println(config.fuzz);
+          response.write((uint8_t)(config.fuzz >> 24));
+          response.write((uint8_t)(config.fuzz >> 16));
+          response.write((uint8_t)(config.fuzz >>  8));
+          response.write((uint8_t)(config.fuzz >>  0));
+
+          Serial.println(config.flat);
+          response.write((uint8_t)(config.flat >> 24));
+          response.write((uint8_t)(config.flat >> 16));
+          response.write((uint8_t)(config.flat >>  8));
+          response.write((uint8_t)(config.flat >>  0));
         }
       }
       break;
