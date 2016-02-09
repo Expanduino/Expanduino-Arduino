@@ -1,7 +1,8 @@
 #include "expanduino.h"
 
 Expanduino::Expanduino()
-: metaSubdevice(*this)
+: metaSubdevice(*this),
+  nextInterruption(nullptr)
 { }
 
 
@@ -55,4 +56,51 @@ void Expanduino::reset() {
     dev->reset();
     dev = dev->next;
   }
+}
+
+
+class ExpanduinoInterruption {
+public:
+  ExpanduinoSubdevice* source;
+  ExpanduinoInterruption* next;
+};
+
+
+bool Expanduino::requestInterruption(ExpanduinoSubdevice* dev) {
+  if (!dev->interruptionEnabled) {
+    return false;
+  } else if (dev->interrupted) {
+    return true;
+  }
+  
+  dev->interrupted = true;
+  
+  ExpanduinoInterruption* interruption = (ExpanduinoInterruption*)malloc(sizeof(ExpanduinoInterruption));
+  interruption->source = dev;
+  interruption->next = nullptr;
+  
+  ExpanduinoInterruption** ptrNextInterruption = &this->nextInterruption;
+  while (*ptrNextInterruption) {
+    ptrNextInterruption = &((*ptrNextInterruption)->next);
+  }
+  *ptrNextInterruption = interruption;
+  
+  return true;
+}
+
+bool Expanduino::readInterruptionData(Print& response) {
+  ExpanduinoInterruption* interruption = this->nextInterruption;
+  if (!interruption) {
+    return false;
+  }
+  
+  ExpanduinoSubdevice* dev = interruption->source;
+  dev->interrupted = false;
+  response.write(dev->devNum);
+  dev->readInterruptionData(response);
+  
+  this->nextInterruption = interruption->next;
+  free(interruption);
+  
+  return this->nextInterruption;
 }

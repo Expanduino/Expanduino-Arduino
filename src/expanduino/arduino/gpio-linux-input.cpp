@@ -11,6 +11,10 @@ ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArdui
     components[i].value = 0;
     switch (components[i].type.type) {
       case EV_KEY:
+      case EV_SW: {
+        pinMode(components[i].pin, INPUT_PULLUP);
+        break;
+      }
       case EV_ABS: {
         pinMode(components[i].pin, INPUT);
         break;
@@ -49,8 +53,9 @@ LinuxInputAbsoluteComponentConfig ExpanduinoSubdeviceGpioLinuxInputArduino::getA
 int32_t ExpanduinoSubdeviceGpioLinuxInputArduino::getValue(uint8_t componentNum) {
   ArduinoGpioLinuxInputComponent& comp = components[componentNum];
   switch (comp.type.type) {
-    case EV_KEY: {
-      comp.value = digitalRead(comp.pin) ? 1 : 0;
+    case EV_KEY:
+    case EV_SW: {
+      comp.value = digitalRead(comp.pin) ? 0 : 1; //EV_KEY, EV_SW are Active-low
       break;
     }
     case EV_ABS: {
@@ -85,13 +90,26 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::setValue(uint8_t componentNum, in
         }
       } else if (comp.type.code == SND_BELL) {
         if (value > 0) {
-          tone(comp.pin, 1000);
+          analogWrite(comp.pin, 127);
         } else {
-          noTone(comp.pin);
+          digitalWrite(comp.pin, 0);
         }
       }
     }
   }
   
   comp.value = value;
+}
+
+void ExpanduinoSubdeviceGpioLinuxInputArduino::getInterruptionReport(LinuxInputStateChange* &valuesArray, uint8_t &valuesArrayLength) {
+  valuesArray = (LinuxInputStateChange*)malloc(this->getNumComponents() * sizeof(LinuxInputStateChange));
+  for (uint8_t i=0; i<this->getNumComponents(); i++) {
+    int32_t old = this->components[i].value;
+    int32_t current = this->getValue(i);
+    if (old != current) {
+      valuesArray[valuesArrayLength].component = i;
+      valuesArray[valuesArrayLength].value = current;
+      valuesArrayLength++;
+    }
+  }
 }

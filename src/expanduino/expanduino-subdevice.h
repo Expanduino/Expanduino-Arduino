@@ -22,7 +22,8 @@ class MetaExpanduinoSubdevice;
 class ExpanduinoSubdevice {
   Expanduino& container;
   ExpanduinoSubdeviceType devType;
-  bool isInterrupted;
+  bool interruptionEnabled;
+  bool interrupted;
   ExpanduinoSubdevice* next;
   uint8_t devNum;
   const char* name;
@@ -35,8 +36,25 @@ public:
   ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdeviceType devType, const char* name, const char* shortName);
   virtual void dispatch(uint8_t opcode, Stream& request, Print& response) = 0;
   virtual void reset();
-  void requestInterrupt();
-  bool clearInterruptStatus();
+  
+  //Human-Friendly name
   void getName(Print& out);
+  
+  //Machine-friendly name: Short, no spaces, etc
   void getShortName(Print& out);
+  
+  // Called from the hosts to enable/disable interrupts from this subdevice
+  void setInterruptionEnabled(bool enabled);
+  
+  // Notify the controller about an interruption. 
+  // If the result is false, the host isn't expecting interruptions (interrupts_enabled == false) and the event should be discarded.
+  // Otherwise, readInterruptionData() will be called ASAP
+  bool requestInterruption();
+
+  // Discard any pending interruptions -- override if needed
+  virtual void clearInterruption();  
+ 
+  // Returns interruption data -- Override if needed
+  // If there is more data to read, requestInterrupt() may be called from it.
+  virtual void readInterruptionData(Print& response);
 };

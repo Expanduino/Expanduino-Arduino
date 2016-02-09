@@ -14,11 +14,11 @@ public:
 class ExpanduinoI2C_ : public Expanduino {
   int interruptPin;
 public:
+  virtual bool readInterruptionData(Print& response);
+  virtual bool requestInterruption(ExpanduinoSubdevice* dev);
+  
   void begin(int address, int interruptPin);
   void end();
-  
-  virtual void requestInterrupt();
-  virtual bool clearInterruptStatus();
   
   static void wireOnReceive(int howMany);
   static void wireOnRequest();

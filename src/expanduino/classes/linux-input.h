@@ -33,6 +33,12 @@ public:
   int32_t flat;
 };
 
+class LinuxInputStateChange {
+  public:
+  uint8_t component;
+  int32_t value;
+};
+
 class ExpanduinoSubdeviceLinuxInput : public ExpanduinoSubdevice {
 public:
   ExpanduinoSubdeviceLinuxInput(Expanduino& container, const char* name="Linux Input", const char* shortName="linux-input"); 
@@ -44,5 +50,7 @@ public:
   virtual LinuxInputAbsoluteComponentConfig getAbsoluteComponentConfig(uint8_t componentNum) = 0;
   virtual int32_t getValue(uint8_t componentNum) = 0;
   virtual void setValue(uint8_t componentNum, int32_t value) = 0;
-//   virtual void notifyChange(uint8_t componentNum, int32_t value) = 0;
+  
+  virtual void readInterruptionData(Print& response);
+  virtual void getInterruptionReport(LinuxInputStateChange* &valuesArray, uint8_t &valuesArrayLength) = 0;
 };

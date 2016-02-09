@@ -30,23 +30,14 @@ void ExpanduinoI2C_::wireOnReceive(int _) {
   }
 }
 
-char meh[] = {2, 65, 66, 0};
 void ExpanduinoI2C_::wireOnRequest() {
   Wire.write(wireOutputBuffer.buffer.data, wireOutputBuffer.buffer.len + 1);
-
-//   Serial.print(">>");
-//   for (int i=0; i<wireOutputBuffer.buffer.len + 1; i++) {
-//     Serial.print(" ");
-//     Serial.print(wireOutputBuffer.buffer.data[i] / 16, HEX);
-//     Serial.print(wireOutputBuffer.buffer.data[i] % 16, HEX);
-//   }
-//   Serial.println();
 }
 
 void ExpanduinoI2C_::begin(int address, int interruptPin) {
   this->interruptPin = interruptPin;
-  pinMode(interruptPin, OUTPUT);
   digitalWrite(interruptPin, false);
+  pinMode(interruptPin, INPUT);
   
   Wire.begin(address);
   Wire.onReceive(ExpanduinoI2C_::wireOnReceive);
@@ -58,16 +49,22 @@ void ExpanduinoI2C_::end() {
   pinMode(interruptPin, INPUT);
 }
 
-
-void ExpanduinoI2C_::requestInterrupt() {
-  digitalWrite(interruptPin, true);
-}
-
-
-bool ExpanduinoI2C_::clearInterruptStatus() {
-  bool ret = digitalRead(interruptPin);
-  digitalWrite(interruptPin, false);
+bool ExpanduinoI2C_::readInterruptionData(Print& response) {
+  pinMode(interruptPin, INPUT);
+  bool ret = Expanduino::readInterruptionData(response);
+  if (ret) {
+    pinMode(interruptPin, OUTPUT);
+  }
   return ret;
 }
+
+bool ExpanduinoI2C_::requestInterruption(ExpanduinoSubdevice* dev) {
+  bool ret = Expanduino::requestInterruption(dev);
+  if (ret) {
+    pinMode(interruptPin, OUTPUT);
+  }
+  return ret;
+}
+
 
 ExpanduinoI2C_ ExpanduinoI2C;

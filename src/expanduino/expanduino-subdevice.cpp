@@ -5,7 +5,8 @@ ExpanduinoSubdevice::ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdev
   devType(devType),
   name(name),
   shortName(shortName),
-  isInterrupted(false),
+  interruptionEnabled(false),
+  interrupted(false),
   next(nullptr),
   devNum(0)
 {
@@ -31,15 +32,22 @@ void ExpanduinoSubdevice::getShortName(Print& out) {
   out.print(shortName);
 }
 
-void ExpanduinoSubdevice::requestInterrupt() {
-  if (!this->isInterrupted) {
-    this->isInterrupted = true;
-    container.requestInterrupt();
+void ExpanduinoSubdevice::setInterruptionEnabled(bool enabled) {
+  this->interruptionEnabled = enabled;
+  if (!enabled) {
+    this->interrupted = false;
+    this->clearInterruption();
   }
 }
 
-bool ExpanduinoSubdevice::clearInterruptStatus() {
-  bool ret = this->isInterrupted;
-  this->isInterrupted = false;
-  return ret;
+bool ExpanduinoSubdevice::requestInterruption() {
+  return this->container.requestInterruption(this);
+}
+
+void ExpanduinoSubdevice::clearInterruption() {
+  // should be overriden on subclasses that support interruptions
+}
+
+void ExpanduinoSubdevice::readInterruptionData(Print& response) {
+  // should be overriden on subclasses that support interruptions
 }
