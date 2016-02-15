@@ -29,12 +29,30 @@ void MetaExpanduinoSubdevice::dispatch(uint8_t opcode, Stream& request, Print& r
     }
     
     case EXPANDUINO_CMD_META_RESET: {
-      container.reset();
+      if (request.available()) {
+        ExpanduinoSubdevice* dev = container.getDevice(request.read());
+        if (dev) {
+          dev->setInterruptionEnabled(false);
+          dev->reset();
+        }
+      } else {
+        container.reset();
+      }
       break;
     }
         
     case EXPANDUINO_CMD_META_GET_INTERRUPTION: {
       container.readInterruptionData(response);
+      break;
+    }
+    
+    case EXPANDUINO_CMD_META_GET_INTERRUPTION_ENABLED: {
+      if (request.available()) {
+        ExpanduinoSubdevice* dev = container.getDevice(request.read());
+        if (dev) {
+          response.write(dev->interruptionEnabled);
+        }
+      }
       break;
     }
     
@@ -45,6 +63,7 @@ void MetaExpanduinoSubdevice::dispatch(uint8_t opcode, Stream& request, Print& r
           dev->setInterruptionEnabled(request.read());
         }
       }
+      break;
     }
         
     case EXPANDUINO_CMD_META_NUM_SUBDEVICES: {

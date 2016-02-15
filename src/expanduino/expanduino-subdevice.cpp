@@ -48,6 +48,14 @@ void ExpanduinoSubdevice::clearInterruption() {
   // should be overriden on subclasses that support interruptions
 }
 
+void ExpanduinoSubdevice::startedInterruption() {
+  // should be overriden on subclasses that support interruptions
+}
+
+void ExpanduinoSubdevice::stoppedInterruption() {
+  // should be overriden on subclasses that support interruptions
+}
+
 void ExpanduinoSubdevice::readInterruptionData(Print& response) {
   // should be overriden on subclasses that support interruptions
 }

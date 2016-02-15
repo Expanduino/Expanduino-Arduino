@@ -53,6 +53,7 @@ bool ExpanduinoI2C_::readInterruptionData(Print& response) {
   pinMode(interruptPin, INPUT);
   bool ret = Expanduino::readInterruptionData(response);
   if (ret) {
+    digitalWrite(interruptPin, false);
     pinMode(interruptPin, OUTPUT);
   }
   return ret;
@@ -61,10 +62,10 @@ bool ExpanduinoI2C_::readInterruptionData(Print& response) {
 bool ExpanduinoI2C_::requestInterruption(ExpanduinoSubdevice* dev) {
   bool ret = Expanduino::requestInterruption(dev);
   if (ret) {
+    digitalWrite(interruptPin, false);
     pinMode(interruptPin, OUTPUT);
   }
   return ret;
 }
 
 
-ExpanduinoI2C_ ExpanduinoI2C;

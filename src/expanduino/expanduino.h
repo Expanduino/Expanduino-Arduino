@@ -3,7 +3,7 @@
 #include "expanduino-subdevice.h"
 #include "classes/meta.h"
 
-#define EXPANDUINO_MAX_RESPONSE_SIZE 30
+#define EXPANDUINO_MAX_RESPONSE_SIZE 128
 
 class ExpanduinoInterruption;
 

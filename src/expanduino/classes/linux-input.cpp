@@ -43,25 +43,21 @@ void ExpanduinoSubdeviceLinuxInput::dispatch(uint8_t opcode, Stream& request, Pr
         uint8_t componentNum = request.read(); 
         if (componentNum < getNumComponents() && getComponentType(componentNum).type == EV_ABS) {
           const LinuxInputAbsoluteComponentConfig config = getAbsoluteComponentConfig(componentNum);
-          Serial.println(config.max);
           response.write((uint8_t)(config.max >> 24));
           response.write((uint8_t)(config.max >> 16));
           response.write((uint8_t)(config.max >>  8));
           response.write((uint8_t)(config.max >>  0));
           
-          Serial.println(config.min);
           response.write((uint8_t)(config.min >> 24));
           response.write((uint8_t)(config.min >> 16));
           response.write((uint8_t)(config.min >>  8));
           response.write((uint8_t)(config.min >>  0));
           
-          Serial.println(config.fuzz);
           response.write((uint8_t)(config.fuzz >> 24));
           response.write((uint8_t)(config.fuzz >> 16));
           response.write((uint8_t)(config.fuzz >>  8));
           response.write((uint8_t)(config.fuzz >>  0));
 
-          Serial.println(config.flat);
           response.write((uint8_t)(config.flat >> 24));
           response.write((uint8_t)(config.flat >> 16));
           response.write((uint8_t)(config.flat >>  8));

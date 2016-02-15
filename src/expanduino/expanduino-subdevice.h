@@ -42,9 +42,11 @@ public:
   
   //Machine-friendly name: Short, no spaces, etc
   void getShortName(Print& out);
-  
+   
   // Called from the hosts to enable/disable interrupts from this subdevice
   void setInterruptionEnabled(bool enabled);
+  virtual void startedInterruption();
+  virtual void stoppedInterruption();
   
   // Notify the controller about an interruption. 
   // If the result is false, the host isn't expecting interruptions (interrupts_enabled == false) and the event should be discarded.

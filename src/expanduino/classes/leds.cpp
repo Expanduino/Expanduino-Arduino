@@ -1,7 +1,7 @@
 #include "leds.h"
 
 ExpanduinoSubdeviceLeds::ExpanduinoSubdeviceLeds(Expanduino& container, const char* name, const char* shortName) 
-: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LEDS, name, "leds")
+: ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_LEDS, name, shortName)
 { }
 
 

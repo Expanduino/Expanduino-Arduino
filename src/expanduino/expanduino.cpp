@@ -53,6 +53,7 @@ void Expanduino::getShortName(Print& out) {
 void Expanduino::reset() {
   ExpanduinoSubdevice* dev = &this->metaSubdevice;
   while (dev) {
+    dev->setInterruptionEnabled(false);
     dev->reset();
     dev = dev->next;
   }

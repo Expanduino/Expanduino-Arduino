@@ -68,13 +68,10 @@ int32_t ExpanduinoSubdeviceGpioLinuxInputArduino::getValue(uint8_t componentNum)
 
 void ExpanduinoSubdeviceGpioLinuxInputArduino::setValue(uint8_t componentNum, int32_t value) {
   ArduinoGpioLinuxInputComponent& comp = components[componentNum];
-  Serial.print("set input ");
-  Serial.print(comp.type.type);
   
   switch (comp.type.type) {
     
     case EV_LED: {
-      Serial.print(" led! ");
       value = value ? 1 : 0;
       digitalWrite(comp.pin, value ? HIGH : LOW);
       break;
@@ -92,7 +89,7 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::setValue(uint8_t componentNum, in
         if (value > 0) {
           analogWrite(comp.pin, 127);
         } else {
-          digitalWrite(comp.pin, 0);
+          analogWrite(comp.pin, 0);
         }
       }
     }
