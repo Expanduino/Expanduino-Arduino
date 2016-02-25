@@ -12,10 +12,10 @@ Expanduino makes peripheral development easier:
 # Device types:
 
 Expanduino currently supports these types of devices:
+- Input devices
+- Serial Ports
 - LEDs
-- Input devices (Based either linux subsystem or on HID) - TODO
-- Character LCDs - TODO
-- Serial Ports - TODO
+- LCDs - TODO
 - I2C Ports - TODO
 - SPI Ports - TODO
 
@@ -28,3 +28,11 @@ The Expanduino protocol can be used on top of many hardware interfaces:
 - Serial (TODO)
 - USB (TODO)
 - Network (TCP Sockets, WebSockets) - TODO
+
+# Status
+
+This project is in early development stage.
+
+Many of features already work, but the codebase is changing quickly
+
+There isn't a kernel driver yet - For now, I'm using an [userspace drivers](https://github.com/Expanduino/Expanduino-Python) to attach the device.
