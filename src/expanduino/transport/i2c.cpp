@@ -35,6 +35,8 @@ void ExpanduinoI2C_::wireOnRequest() {
 }
 
 void ExpanduinoI2C_::begin(int address, int interruptPin) {
+  beginSubdevices();
+  
   this->interruptPin = interruptPin;
   digitalWrite(interruptPin, false);
   pinMode(interruptPin, INPUT);
@@ -47,6 +49,8 @@ void ExpanduinoI2C_::begin(int address, int interruptPin) {
 void ExpanduinoI2C_::end() {
   Wire.end();
   pinMode(interruptPin, INPUT);
+  
+  endSubdevices();
 }
 
 bool ExpanduinoI2C_::readInterruptionData(Print& response) {

@@ -1,7 +1,6 @@
 #include "serial.h"
-#include <Arduino.h>
 
-#define DEFAULT_READ_SIZE 5
+#define DEFAULT_READ_SIZE 25
 
 ExpanduinoSubdeviceSerial::ExpanduinoSubdeviceSerial(Expanduino& container, const char* name, const char* shortName) 
 : ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_SERIAL, name, shortName)
@@ -65,8 +64,6 @@ void ExpanduinoSubdeviceSerial::readInterruptionData(Print& response) {
     if (available) {
       if (!handled) {
         response.write(serialNum);
-        
-        Serial.println("READ INT!");
         
         this->read(serialNum, response, DEFAULT_READ_SIZE);
         handled = true;

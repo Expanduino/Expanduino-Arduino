@@ -7,6 +7,9 @@ ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArdui
   numComponents(numComponents),
   components(components)
 {
+}
+
+void ExpanduinoSubdeviceGpioLinuxInputArduino::begin() {
   for (int i=0; i<numComponents; i++) {
     components[i].value = 0;
     switch (components[i].type.type) {
@@ -23,6 +26,23 @@ ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArdui
       case EV_SND: {
         pinMode(components[i].pin, OUTPUT);
         digitalWrite(components[i].pin, LOW);
+        break;
+      }
+    }
+    setValue(i, 0);
+  }
+}
+
+void ExpanduinoSubdeviceGpioLinuxInputArduino::end() {
+  for (int i=0; i<numComponents; i++) {
+    components[i].value = 0;
+    switch (components[i].type.type) {
+      case EV_KEY:
+      case EV_SW: 
+      case EV_LED:
+      case EV_SND: 
+      case EV_ABS: {
+        pinMode(components[i].pin, INPUT);
         break;
       }
     }

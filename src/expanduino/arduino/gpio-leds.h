@@ -13,6 +13,8 @@ class ExpanduinoSubdeviceGpioLedsArduino : public ExpanduinoSubdeviceLeds {
   ArduinoLed* leds;
 public:
   ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds);
+  virtual void begin();
+  virtual void end();
   virtual uint8_t getNumLeds();
   virtual uint8_t getBrightness(uint8_t ledNum);
   virtual void setBrightness(uint8_t ledNum, uint8_t brightness);

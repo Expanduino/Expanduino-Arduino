@@ -6,9 +6,18 @@ ExpanduinoSubdeviceGpioLedsArduino::ExpanduinoSubdeviceGpioLedsArduino(Expanduin
   numLeds(numLeds),
   leds(leds)
 {
+}
+
+void ExpanduinoSubdeviceGpioLedsArduino::begin() {
   for (int i=0; i<numLeds; i++) {
     pinMode(leds[i].pin, OUTPUT);
     setBrightness(i, 0);
+  }
+}
+
+void ExpanduinoSubdeviceGpioLedsArduino::end() {
+  for (int i=0; i<numLeds; i++) {
+    pinMode(leds[i].pin, INPUT);
   }
 }
 

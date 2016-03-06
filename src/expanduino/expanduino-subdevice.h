@@ -35,6 +35,8 @@ class ExpanduinoSubdevice {
 public:
   ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdeviceType devType, const char* name, const char* shortName);
   virtual void dispatch(uint8_t opcode, Stream& request, Print& response) = 0;
+  virtual void begin();
+  virtual void end();
   virtual void reset();
   
   //Human-Friendly name

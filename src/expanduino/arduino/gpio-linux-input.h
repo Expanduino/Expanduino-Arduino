@@ -14,6 +14,8 @@ class ExpanduinoSubdeviceGpioLinuxInputArduino : public ExpanduinoSubdeviceLinux
   ArduinoGpioLinuxInputComponent* components;
 public:
   ExpanduinoSubdeviceGpioLinuxInputArduino(Expanduino& container, const LinuxInputId &linuxInputId, int numComponents, ArduinoGpioLinuxInputComponent* components);
+  virtual void begin();
+  virtual void end();
   virtual const LinuxInputId& getLinuxInputId();
   virtual uint8_t getNumComponents();
   virtual LinuxInputComponentType getComponentType(uint8_t componentNum);

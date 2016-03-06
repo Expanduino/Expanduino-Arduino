@@ -27,8 +27,10 @@ public:
   void getProductName(Print& out);
   void getSerialNumber(Print& out);
   void getShortName(Print& out);
+  void beginSubdevices();
+  void endSubdevices();
   void reset();
-
+  
   virtual bool readInterruptionData(Print& response);
   virtual bool requestInterruption(ExpanduinoSubdevice* dev);
 

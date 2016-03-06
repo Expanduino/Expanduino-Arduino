@@ -6,6 +6,18 @@ ExpanduinoSubdeviceHardwareSerialArduino::ExpanduinoSubdeviceHardwareSerialArdui
   serials(serials)
 { }
 
+void ExpanduinoSubdeviceHardwareSerialArduino::begin() {
+  for (int i=0; i<numSerials; i++) {
+    serials[i]->begin(9600);
+  }
+}
+
+void ExpanduinoSubdeviceHardwareSerialArduino::end() {
+  for (int i=0; i<numSerials; i++) {
+    serials[i]->end();
+  }
+}
+
 
 uint8_t ExpanduinoSubdeviceHardwareSerialArduino::getNumSerials() {
   return numSerials;

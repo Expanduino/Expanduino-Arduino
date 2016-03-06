@@ -50,6 +50,23 @@ void Expanduino::getShortName(Print& out) {
   out.print(shortName ? shortName : "expanduino");
 }
 
+
+void Expanduino::beginSubdevices() {
+  ExpanduinoSubdevice* dev = &this->metaSubdevice;
+  while (dev) {
+    dev->begin();
+    dev = dev->next;
+  }
+}
+
+void Expanduino::endSubdevices() {
+  ExpanduinoSubdevice* dev = &this->metaSubdevice;
+  while (dev) {
+    dev->end();
+    dev = dev->next;
+  }
+}
+
 void Expanduino::reset() {
   ExpanduinoSubdevice* dev = &this->metaSubdevice;
   while (dev) {

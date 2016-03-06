@@ -21,6 +21,12 @@ ExpanduinoSubdevice::ExpanduinoSubdevice(Expanduino& container, ExpanduinoSubdev
   }
 }
 
+void ExpanduinoSubdevice::begin() {
+}
+
+void ExpanduinoSubdevice::end() {
+}
+
 void ExpanduinoSubdevice::reset() {
 }
 
