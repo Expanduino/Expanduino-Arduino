@@ -1,5 +1,10 @@
 #include "gpio-linux-input.h"
 #include <Arduino.h>
+#include <YetAnotherPcInt.h>
+
+static void pinChanged(ExpanduinoSubdeviceGpioLinuxInputArduino* listener, bool pinstate) {
+  listener->requestInterruption();
+}
 
 ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArduino(Expanduino& container, const char* name, const char* shortName, const LinuxInputId &linuxInputId, ArduinoGpioLinuxInputComponent* components, int numComponents) 
 : ExpanduinoSubdeviceLinuxInput(container, name, shortName),
@@ -16,6 +21,9 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::begin() {
       case EV_KEY:
       case EV_SW: {
         pinMode(components[i].pin, INPUT_PULLUP);
+        if (digitalPinToPCICR(components[i].pin)) {
+          PcInt::attachInterrupt(components[i].pin, pinChanged, this, CHANGE, true);
+        }
         break;
       }
       case EV_ABS: {
@@ -40,6 +48,9 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::end() {
       case EV_KEY:
       case EV_SW: 
       case EV_LED:
+        if (digitalPinToPCICR(components[i].pin)) {
+          PcInt::detachInterrupt(components[i].pin);
+        }
       case EV_SND: 
       case EV_ABS: {
         pinMode(components[i].pin, INPUT);
