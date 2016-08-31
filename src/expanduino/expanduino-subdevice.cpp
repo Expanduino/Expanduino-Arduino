@@ -30,6 +30,9 @@ void ExpanduinoSubdevice::end() {
 void ExpanduinoSubdevice::reset() {
 }
 
+void ExpanduinoSubdevice::pool() {
+}
+
 void ExpanduinoSubdevice::getName(Print& out) {
   out.print(name);
 }

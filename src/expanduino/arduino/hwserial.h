@@ -10,6 +10,7 @@ public:
   ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, const char* name, const char* shortName, HardwareSerial** serials, int numSerials);
   virtual void begin();
   virtual void end();
+  virtual void pool();
   virtual uint8_t getNumSerials();
   virtual void write(uint8_t serialNum, Stream& data, uint8_t dataLen);
   virtual void read(uint8_t serialNum, Print& data, uint8_t dataLen);

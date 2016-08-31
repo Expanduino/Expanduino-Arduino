@@ -18,6 +18,19 @@ void ExpanduinoSubdeviceHardwareSerialArduino::end() {
   }
 }
 
+void ExpanduinoSubdeviceHardwareSerialArduino::pool() {
+  bool interrupt = false;
+  for (int i=0; i<numSerials; i++) {
+    if (serials[i]->available()) {
+      interrupt = true;
+    }
+  }
+  if (interrupt) {
+    noInterrupts();
+    requestInterruption();
+    interrupts();
+  }
+}
 
 uint8_t ExpanduinoSubdeviceHardwareSerialArduino::getNumSerials() {
   return numSerials;
