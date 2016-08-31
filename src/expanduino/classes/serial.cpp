@@ -32,11 +32,11 @@ void ExpanduinoSubdeviceSerial::dispatch(uint8_t opcode, Stream& request, Print&
       break;
     }
     case EXPANDUINO_CMD_SERIAL_READ: {
-      if (request.available()) {
+      if (request.available() >= 2) {
         uint8_t serialNum = request.read();
         uint8_t readLen = request.read();
         if (serialNum < getNumSerials()) {
-          this->write(serialNum, request, readLen);
+          this->read(serialNum, response, readLen);
         }
       }
       break;
