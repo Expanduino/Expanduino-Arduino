@@ -1,11 +1,11 @@
 #include "gpio-linux-input.h"
 #include <Arduino.h>
 
-ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArduino(Expanduino& container, const LinuxInputId &linuxInputId, int numComponents, ArduinoGpioLinuxInputComponent* components) 
-: ExpanduinoSubdeviceLinuxInput(container),
+ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArduino(Expanduino& container, const char* name, const char* shortName, const LinuxInputId &linuxInputId, ArduinoGpioLinuxInputComponent* components, int numComponents) 
+: ExpanduinoSubdeviceLinuxInput(container, name, shortName),
   linuxInputId(linuxInputId),
-  numComponents(numComponents),
-  components(components)
+  components(components),
+  numComponents(numComponents)
 {
 }
 

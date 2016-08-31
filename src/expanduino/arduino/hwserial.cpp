@@ -1,9 +1,9 @@
 #include "hwserial.h"
 
-ExpanduinoSubdeviceHardwareSerialArduino::ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, int numSerials, HardwareSerial** serials) 
-: ExpanduinoSubdeviceSerial(container),
-  numSerials(numSerials),
-  serials(serials)
+ExpanduinoSubdeviceHardwareSerialArduino::ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, const char* name, const char* shortName, HardwareSerial** serials, int numSerials) 
+: ExpanduinoSubdeviceSerial(container, name, shortName),
+  serials(serials),
+  numSerials(numSerials)
 { }
 
 void ExpanduinoSubdeviceHardwareSerialArduino::begin() {

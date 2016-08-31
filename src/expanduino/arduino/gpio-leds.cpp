@@ -1,10 +1,10 @@
 #include "gpio-leds.h"
 #include <Arduino.h>
 
-ExpanduinoSubdeviceGpioLedsArduino::ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds) 
-: ExpanduinoSubdeviceLeds(container),
-  numLeds(numLeds),
-  leds(leds)
+ExpanduinoSubdeviceGpioLedsArduino::ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, const char* name, const char* shortName, ArduinoLed* leds, int numLeds) 
+: ExpanduinoSubdeviceLeds(container, name, shortName),
+  leds(leds),
+  numLeds(numLeds)
 {
 }
 

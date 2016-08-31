@@ -4,10 +4,10 @@
 #include <Arduino.h>
 
 class ExpanduinoSubdeviceHardwareSerialArduino : public ExpanduinoSubdeviceSerial {
-  int numSerials;
   HardwareSerial** serials;
+  int numSerials;
 public:
-  ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, int numSerials, HardwareSerial** serials);
+  ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, const char* name, const char* shortName, HardwareSerial** serials, int numSerials);
   virtual void begin();
   virtual void end();
   virtual uint8_t getNumSerials();

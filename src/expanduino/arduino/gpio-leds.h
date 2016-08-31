@@ -9,10 +9,10 @@ typedef struct {
 } ArduinoLed;
 
 class ExpanduinoSubdeviceGpioLedsArduino : public ExpanduinoSubdeviceLeds {
-  int numLeds;
   ArduinoLed* leds;
+  int numLeds;
 public:
-  ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, int numLeds, ArduinoLed* leds);
+  ExpanduinoSubdeviceGpioLedsArduino(Expanduino& container, const char* name, const char* shortName, ArduinoLed* leds, int numLeds);
   virtual void begin();
   virtual void end();
   virtual uint8_t getNumLeds();
