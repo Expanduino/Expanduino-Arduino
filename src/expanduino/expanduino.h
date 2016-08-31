@@ -13,11 +13,8 @@ public:
 
 
 class Expanduino {
+protected:
   MetaExpanduinoSubdevice metaSubdevice;
-  const char* vendorName;
-  const char* productName;
-  const char* serialNumber;
-  const char* shortName;
   ExpanduinoInterruption* nextInterruption;
   
   friend class ExpanduinoSubdevice;
@@ -39,4 +36,8 @@ public:
   virtual bool readInterruptionData(Print& response);
   virtual bool requestInterruption(ExpanduinoSubdevice* dev);
 
+  const char* vendorName;
+  const char* productName;
+  const char* serialNumber;
+  const char* shortName;
 };
