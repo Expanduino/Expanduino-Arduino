@@ -5,7 +5,12 @@
 
 #define EXPANDUINO_MAX_RESPONSE_SIZE 128
 
-class ExpanduinoInterruption;
+class ExpanduinoInterruption {
+public:
+  ExpanduinoSubdevice* source;
+  ExpanduinoInterruption* next;
+};
+
 
 class Expanduino {
   MetaExpanduinoSubdevice metaSubdevice;

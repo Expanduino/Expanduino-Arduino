@@ -76,14 +76,6 @@ void Expanduino::reset() {
   }
 }
 
-
-class ExpanduinoInterruption {
-public:
-  ExpanduinoSubdevice* source;
-  ExpanduinoInterruption* next;
-};
-
-
 bool Expanduino::requestInterruption(ExpanduinoSubdevice* dev) {
   if (!dev->interruptionEnabled) {
     return false;
