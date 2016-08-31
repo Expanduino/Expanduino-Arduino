@@ -12,7 +12,8 @@ enum ExpanduinoSubdeviceType {
   EXPANDUINO_DEVICE_TYPE_SERIAL       = 6,
   EXPANDUINO_DEVICE_TYPE_MISC         = 7,
   EXPANDUINO_DEVICE_TYPE_I2C          = 8,
-  EXPANDUINO_DEVICE_TYPE_SPI          = 9
+  EXPANDUINO_DEVICE_TYPE_SPI          = 9,
+  EXPANDUINO_DEVICE_TYPE_LCD          = 10
 };
 
 class Expanduino;
