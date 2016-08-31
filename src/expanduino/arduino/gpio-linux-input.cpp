@@ -111,17 +111,20 @@ void ExpanduinoSubdeviceGpioLinuxInputArduino::setValue(uint8_t componentNum, in
     //pwm-beeper.c
     case EV_SND: {
       if (comp.type.code == SND_TONE) {
-        if (value > 0) {
+        digitalWrite(comp.pin, value ? HIGH : LOW);
+        /*if (value > 0) {
           tone(comp.pin, value);
         } else {
           noTone(comp.pin);
-        }
+        }*/
       } else if (comp.type.code == SND_BELL) {
+        digitalWrite(comp.pin, value ? HIGH : LOW);
+        /*
         if (value > 0) {
           analogWrite(comp.pin, 127);
         } else {
           analogWrite(comp.pin, 0);
-        }
+        }*/
       }
     }
   }
