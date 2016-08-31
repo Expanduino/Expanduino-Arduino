@@ -80,7 +80,7 @@ bool Expanduino::requestInterruption(ExpanduinoSubdevice* dev) {
   if (!dev->interruptionEnabled) {
     return false;
   } else if (dev->interrupted) {
-    return true;
+    return false;
   }
   
   dev->interrupted = true;
