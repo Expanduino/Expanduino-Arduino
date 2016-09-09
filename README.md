@@ -15,24 +15,20 @@ Expanduino currently supports these types of devices:
 - Input devices
 - Serial Ports
 - LEDs
-- LCDs - TODO
-- I2C Ports - TODO
-- SPI Ports - TODO
+- Character LCDs
 
 **Your device can implement many different device types at the same time!**
 
 # Hardware Interface
 
-The Expanduino protocol can be used on top of many hardware interfaces:
-- I2C
-- Serial (TODO)
-- USB (TODO)
-- Network (TCP Sockets, WebSockets) - TODO
+The Expanduino protocol is meant to be useable with many hardware interfaces.
+
+Right now, only I2C is supported, but Serial, SPI, USB, CAN and Network (TCP Sockets, WebSockets) are planned
 
 # Status
 
 This project is in early development stage.
 
-Many of features already work, but the codebase is changing quickly
+Many of features already work, but the codebase is messy and changing quickly
 
 There isn't a kernel driver yet - For now, I'm using an [userspace drivers](https://github.com/Expanduino/Expanduino-Python) to attach the device.
