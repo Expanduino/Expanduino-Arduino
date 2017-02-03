@@ -103,18 +103,15 @@ void ExpanduinoSubdeviceLinuxInput::reset() {
 }
 
 void ExpanduinoSubdeviceLinuxInput::readInterruptionData(Print& response) {
-  LinuxInputStateChange* values = nullptr;
+  LinuxInputStateChange values[LINUX_INPUT_MAX_INTERRUPT_EVENTS];
   uint8_t valuesLen = 0;
   this->getInterruptionReport(values, valuesLen);
   
-  if (values) {
-    for (uint8_t i=0; i<valuesLen; i++) {
-      response.write(values[i].component);
-      response.write((uint8_t)(values[i].value >> 24));
-      response.write((uint8_t)(values[i].value >> 16));
-      response.write((uint8_t)(values[i].value >>  8));
-      response.write((uint8_t)(values[i].value >>  0));
-    }
-    free(values);
+  for (uint8_t i=0; i<valuesLen; i++) {
+    response.write(values[i].component);
+    response.write((uint8_t)(values[i].value >> 24));
+    response.write((uint8_t)(values[i].value >> 16));
+    response.write((uint8_t)(values[i].value >>  8));
+    response.write((uint8_t)(values[i].value >>  0));
   }
 }

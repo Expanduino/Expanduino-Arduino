@@ -28,5 +28,5 @@ public:
   virtual LinuxInputAbsoluteComponentConfig getAbsoluteComponentConfig(uint8_t componentNum);
   virtual int32_t getValue(uint8_t componentNum);
   virtual void setValue(uint8_t componentNum, int32_t value);
-  virtual void getInterruptionReport(LinuxInputStateChange* &valuesArray, uint8_t &valuesArrayLength);
+  virtual void getInterruptionReport(LinuxInputStateChange* valuesArray, uint8_t &valuesArrayLength);
 };

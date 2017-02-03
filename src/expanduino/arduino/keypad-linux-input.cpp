@@ -93,9 +93,8 @@ int32_t ExpanduinoSubdeviceKeypadLinuxInputArduino::getValue(uint8_t componentNu
   return comp.knownValue;
 }
 
-void ExpanduinoSubdeviceKeypadLinuxInputArduino::getInterruptionReport(LinuxInputStateChange* &valuesArray, uint8_t &valuesArrayLength) {
-  valuesArray = (LinuxInputStateChange*)malloc(this->getNumComponents() * sizeof(LinuxInputStateChange));
-  for (uint8_t componentNum=0; componentNum<this->getNumComponents(); componentNum++) {
+void ExpanduinoSubdeviceKeypadLinuxInputArduino::getInterruptionReport(LinuxInputStateChange* valuesArray, uint8_t &valuesArrayLength) {
+  for (uint8_t componentNum=0; (componentNum<this->getNumComponents()) && (valuesArrayLength < LINUX_INPUT_MAX_INTERRUPT_EVENTS); componentNum++) {
     ArduinoKeypadLinuxInputComponent& comp = components[componentNum];
     if (comp.knownValue != comp.actualValue) {
       comp.knownValue = comp.actualValue;
@@ -103,6 +102,10 @@ void ExpanduinoSubdeviceKeypadLinuxInputArduino::getInterruptionReport(LinuxInpu
       valuesArray[valuesArrayLength].value = comp.knownValue ? 1 : 0;
       valuesArrayLength++;
     }
+  }
+
+  if (valuesArrayLength == LINUX_INPUT_MAX_INTERRUPT_EVENTS) {
+    this->requestInterruption();
   }
 }
 

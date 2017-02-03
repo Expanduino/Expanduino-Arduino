@@ -33,6 +33,7 @@ public:
   int32_t flat;
 };
 
+#define LINUX_INPUT_MAX_INTERRUPT_EVENTS 6
 class LinuxInputStateChange {
   public:
   uint8_t component;
@@ -52,5 +53,5 @@ public:
   virtual void setValue(uint8_t componentNum, int32_t value) = 0;
   
   virtual void readInterruptionData(Print& response);
-  virtual void getInterruptionReport(LinuxInputStateChange* &valuesArray, uint8_t &valuesArrayLength) = 0;
+  virtual void getInterruptionReport(LinuxInputStateChange* valuesArray, uint8_t &valuesArrayLength) = 0;
 };
