@@ -8,7 +8,7 @@ typedef struct {
   bool knownValue;
 } ArduinoKeypadLinuxInputComponent;
 
-class ExpanduinoSubdeviceKeypadLinuxInputArduino : public ExpanduinoSubdeviceLinuxInput {
+class ExpanduinoSubdeviceKeypadLinuxInputArduino : public ExpanduinoSubdeviceLinuxInput, public Runnable {
   LinuxInputId linuxInputId;
   int* rows;
   int numRows;
@@ -21,7 +21,7 @@ public:
   ExpanduinoSubdeviceKeypadLinuxInputArduino(Expanduino& container, const char* name, const char* shortName, const LinuxInputId &linuxInputId, int* rows, int numRows, int* cols, int numCols, ArduinoKeypadLinuxInputComponent* components);
   virtual void begin();
   virtual void end();
-  virtual void pool();
+  virtual void run();
   virtual const LinuxInputId& getLinuxInputId();
   virtual uint8_t getNumComponents();
   virtual LinuxInputComponentType getComponentType(uint8_t componentNum);

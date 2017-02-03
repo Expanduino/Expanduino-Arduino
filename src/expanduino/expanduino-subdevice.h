@@ -39,7 +39,6 @@ public:
   virtual void begin();
   virtual void end();
   virtual void reset();
-  virtual void pool();
   
   //Human-Friendly name
   void getName(Print& out);

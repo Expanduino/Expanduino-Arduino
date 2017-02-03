@@ -1,6 +1,8 @@
 #include "wiegand-serial.h"
 #include <YetAnotherPcInt.h>
 
+#define RUN_DELAY 100
+
 static void receivedData(uint8_t* data, uint8_t bits, LoopbackStream* out) {
   uint8_t bytes = (bits+7)/8;
   
@@ -40,9 +42,11 @@ void ExpanduinoSubdeviceWiegandSerialArduino::begin() {
     PcInt::attachInterrupt(wiegands[i].pin0, pin0StateChanged, &wiegands[i].wiegand, CHANGE, true);
     PcInt::attachInterrupt(wiegands[i].pin1, pin1StateChanged, &wiegands[i].wiegand, CHANGE, true);
   }
+  scheduler.schedule(this);
 }
 
 void ExpanduinoSubdeviceWiegandSerialArduino::end() {
+  scheduler.removeCallbacks(this);
   for (int i=0; i<numWiegands; i++) {
     wiegands[i].wiegand.end();
     PcInt::detachInterrupt(wiegands[i].pin0);
@@ -52,7 +56,7 @@ void ExpanduinoSubdeviceWiegandSerialArduino::end() {
   }
 }
 
-void ExpanduinoSubdeviceWiegandSerialArduino::pool() {
+void ExpanduinoSubdeviceWiegandSerialArduino::run() {
   bool interrupt = false;
   for (int i=0; i<numWiegands; i++) {
     ArduinoWiegandComponent& src = wiegands[i];
@@ -66,6 +70,7 @@ void ExpanduinoSubdeviceWiegandSerialArduino::pool() {
     requestInterruption();
     interrupts();
   }
+  scheduler.scheduleDelayed(this, RUN_DELAY);
 }
 
 uint8_t ExpanduinoSubdeviceWiegandSerialArduino::getNumSerials() {

@@ -1,5 +1,7 @@
 #include "hwserial.h"
 
+#define RUN_DELAY 50
+
 ExpanduinoSubdeviceHardwareSerialArduino::ExpanduinoSubdeviceHardwareSerialArduino(Expanduino& container, const char* name, const char* shortName, HardwareSerial** serials, int numSerials) 
 : ExpanduinoSubdeviceSerial(container, name, shortName),
   serials(serials),
@@ -10,15 +12,17 @@ void ExpanduinoSubdeviceHardwareSerialArduino::begin() {
   for (int i=0; i<numSerials; i++) {
     serials[i]->begin(9600);
   }
+  scheduler.schedule(this);
 }
 
 void ExpanduinoSubdeviceHardwareSerialArduino::end() {
+  scheduler.removeCallbacks(this);
   for (int i=0; i<numSerials; i++) {
     serials[i]->end();
   }
 }
 
-void ExpanduinoSubdeviceHardwareSerialArduino::pool() {
+void ExpanduinoSubdeviceHardwareSerialArduino::run() {
   bool interrupt = false;
   for (int i=0; i<numSerials; i++) {
     if (serials[i]->available()) {
@@ -30,6 +34,7 @@ void ExpanduinoSubdeviceHardwareSerialArduino::pool() {
     requestInterruption();
     interrupts();
   }
+  scheduler.scheduleDelayed(this, RUN_DELAY);
 }
 
 uint8_t ExpanduinoSubdeviceHardwareSerialArduino::getNumSerials() {

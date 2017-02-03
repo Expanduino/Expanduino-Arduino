@@ -1,6 +1,8 @@
 #include "keypad-linux-input.h"
 #include <Arduino.h>
 
+#define RUN_DELAY 50
+
 ExpanduinoSubdeviceKeypadLinuxInputArduino::ExpanduinoSubdeviceKeypadLinuxInputArduino(Expanduino& container, const char* name, const char* shortName, const LinuxInputId &linuxInputId, int* rows, int numRows, int* cols, int numCols, ArduinoKeypadLinuxInputComponent* components)
 : ExpanduinoSubdeviceLinuxInput(container, name, shortName),
   linuxInputId(linuxInputId),
@@ -25,9 +27,11 @@ void ExpanduinoSubdeviceKeypadLinuxInputArduino::begin() {
   }
   currentRow = 0;
   rowEnabled = false;
+  scheduler.schedule(this);
 }
 
 void ExpanduinoSubdeviceKeypadLinuxInputArduino::end() {
+  scheduler.removeCallbacks(this);
   for (uint8_t i=0; i<numRows*numCols; i++) {
     components[i].actualValue = 0;
     components[i].knownValue = 0;
@@ -40,7 +44,7 @@ void ExpanduinoSubdeviceKeypadLinuxInputArduino::end() {
   }
 }
 
-void ExpanduinoSubdeviceKeypadLinuxInputArduino::pool() {
+void ExpanduinoSubdeviceKeypadLinuxInputArduino::run() {
   ArduinoKeypadLinuxInputComponent* comp=&components[currentRow*numCols];
   if (!rowEnabled) {
     pinMode(rows[currentRow], OUTPUT);
@@ -68,6 +72,7 @@ void ExpanduinoSubdeviceKeypadLinuxInputArduino::pool() {
       interrupts();
     }
   }
+  scheduler.scheduleDelayed(this, RUN_DELAY);
 }
 
 const LinuxInputId& ExpanduinoSubdeviceKeypadLinuxInputArduino::getLinuxInputId() {

@@ -80,14 +80,6 @@ void setup() {
 }
 
 void loop() {
-  delay(20);
-  noInterrupts();
-  expanduinoLinuxInput.requestInterruption();
-  for (int i=0; i<ARRAY_SIZE(serials); i++) {
-    if (serials[i]->available()) {     
-      expanduinoHwSerial.requestInterruption();
-    }
-  }
-  interrupts();
+  ExpanduinoI2C.main_loop();
 }
 

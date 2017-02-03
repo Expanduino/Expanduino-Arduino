@@ -3,6 +3,9 @@
 #include "expanduino-subdevice.h"
 #include "classes/meta.h"
 
+#define LIBCALL_DEEP_SLEEP_SCHEDULER
+#include <DeepSleepScheduler.h>
+
 #define EXPANDUINO_MAX_RESPONSE_SIZE 128
 
 class ExpanduinoInterruption {
@@ -22,6 +25,7 @@ protected:
   
 public:
   Expanduino();
+  ~Expanduino();
   uint8_t getNumSubdevices();
   ExpanduinoSubdevice* getDevice(uint8_t devNumber);
   void dispatch(uint8_t cmd, Stream& request, Print& response);
@@ -32,6 +36,8 @@ public:
   void beginSubdevices();
   void endSubdevices();
   void reset();
+
+  void main_loop();
   
   virtual bool readInterruptionData(Print& response);
   virtual bool requestInterruption(ExpanduinoSubdevice* dev);

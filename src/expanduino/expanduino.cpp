@@ -1,9 +1,17 @@
+#include <DeepSleepScheduler.h>
+
 #include "expanduino.h"
 
 Expanduino::Expanduino()
 : metaSubdevice(*this),
   nextInterruption(nullptr)
-{ }
+{
+  scheduler.acquireNoDeepSleepLock();
+}
+
+Expanduino::~Expanduino() {
+  scheduler.releaseNoDeepSleepLock();
+}
 
 
 uint8_t Expanduino::getNumSubdevices() {
@@ -113,4 +121,8 @@ bool Expanduino::readInterruptionData(Print& response) {
   free(interruption);
   
   return this->nextInterruption;
+}
+
+void Expanduino::main_loop() {
+  scheduler.execute();
 }
