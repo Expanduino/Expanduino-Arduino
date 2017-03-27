@@ -1,6 +1,6 @@
 #include "serial.h"
 
-#define DEFAULT_READ_SIZE 25
+#define DEFAULT_READ_SIZE 16
 
 ExpanduinoSubdeviceSerial::ExpanduinoSubdeviceSerial(Expanduino& container, const char* name, const char* shortName) 
 : ExpanduinoSubdevice(container, EXPANDUINO_DEVICE_TYPE_SERIAL, name, shortName)
