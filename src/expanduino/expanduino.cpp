@@ -6,11 +6,11 @@ Expanduino::Expanduino()
 : metaSubdevice(*this),
   nextInterruption(nullptr)
 {
-  scheduler.acquireNoDeepSleepLock();
+  scheduler.acquireNoSleepLock();
 }
 
 Expanduino::~Expanduino() {
-  scheduler.releaseNoDeepSleepLock();
+  scheduler.releaseNoSleepLock();
 }
 
 
