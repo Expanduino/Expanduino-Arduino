@@ -24,10 +24,11 @@ void ExpanduinoSubdeviceGpioLcdArduino::reset() {
   lcd.begin(16,2);
 }
 
-void ExpanduinoSubdeviceGpioLcdArduino::sendCommands(Stream& data, uint8_t dataLen) {
+uint8_t  ExpanduinoSubdeviceGpioLcdArduino::sendCommands(Stream& data, uint8_t dataLen) {
   for (int i=0; i<dataLen; i++) {
     lcd.command(data.read());
   }
+  return dataLen;
 }
 
 void ExpanduinoSubdeviceGpioLcdArduino::readText(Print& data, uint8_t dataLen) {
@@ -37,10 +38,11 @@ void ExpanduinoSubdeviceGpioLcdArduino::readText(Print& data, uint8_t dataLen) {
   }
 }
   
-void ExpanduinoSubdeviceGpioLcdArduino::writeText(Stream& data, uint8_t dataLen) {
+uint8_t  ExpanduinoSubdeviceGpioLcdArduino::writeText(Stream& data, uint8_t dataLen) {
   for (int i=0; i<dataLen; i++) {
     lcd.write(data.read());
   }
+  return dataLen;
 }
 
 uint8_t ExpanduinoSubdeviceGpioLcdArduino::getBrightness() {

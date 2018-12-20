@@ -13,9 +13,9 @@ public:
   virtual void end();
   
   virtual void reset();
-  virtual void sendCommands(Stream& data, uint8_t dataLen);
+  virtual uint8_t sendCommands(Stream& data, uint8_t dataLen);
   virtual void readText(Print& data, uint8_t dataLen);
-  virtual void writeText(Stream& data, uint8_t dataLen);
+  virtual uint8_t writeText(Stream& data, uint8_t dataLen);
   virtual uint8_t getBrightness();
   virtual void setBrightness(uint8_t val);
 };

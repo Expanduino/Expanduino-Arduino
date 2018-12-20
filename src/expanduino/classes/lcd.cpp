@@ -8,7 +8,8 @@ void ExpanduinoSubdeviceLcd::dispatch(uint8_t opcode, Stream& request, Print& re
   switch (opcode) {
     case EXPANDUINO_CMD_LCD_CMD: {
       if (request.available()) {
-        this->sendCommands(request, request.available());
+        uint8_t writeLen = this->sendCommands(request, request.available());
+        response.write(writeLen);
       }
       break;
     }    
@@ -21,7 +22,8 @@ void ExpanduinoSubdeviceLcd::dispatch(uint8_t opcode, Stream& request, Print& re
     }
     case EXPANDUINO_CMD_LCD_WRITE_TEXT: {
       if (request.available()) {
-        this->writeText(request, request.available());
+        uint8_t writeLen = this->writeText(request, request.available());
+        response.write(writeLen);
       }
       break;
     }

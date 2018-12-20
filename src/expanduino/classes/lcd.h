@@ -15,9 +15,9 @@ public:
   ExpanduinoSubdeviceLcd(Expanduino& container, const char* name="LCD", const char* shortName="lcd"); 
   virtual void dispatch(uint8_t opcode, Stream& request, Print& response);
   
-  virtual void sendCommands(Stream& data, uint8_t dataLen) = 0;
+  virtual uint8_t sendCommands(Stream& data, uint8_t dataLen) = 0;
   virtual void readText(Print& data, uint8_t dataLen) = 0;
-  virtual void writeText(Stream& data, uint8_t dataLen) = 0;
+  virtual uint8_t writeText(Stream& data, uint8_t dataLen) = 0;
   virtual uint8_t getBrightness() = 0;
   virtual void setBrightness(uint8_t val) = 0;
 };
