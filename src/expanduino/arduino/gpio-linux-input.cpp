@@ -166,7 +166,7 @@ ExpanduinoSubdeviceGpioLinuxInputArduino::ExpanduinoSubdeviceGpioLinuxInputArdui
 }
 
 void ExpanduinoSubdeviceGpioLinuxInputArduino::begin() {
-  this->event_buffer.reset();
+  this->event_buffer.clear();
   for (int i=0; i<numComponents; i++) {
     components[i].parent = this;
     components[i].begin();
