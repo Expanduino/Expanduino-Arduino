@@ -4,7 +4,7 @@
 
 #define DEBOUNCE 5
 
-static void ArduinoGpioLinuxInputComponent::pcint(ArduinoGpioLinuxInputComponent* _this, bool value) {
+void ArduinoGpioLinuxInputComponent::pcint(ArduinoGpioLinuxInputComponent* _this, bool value) {
   int delay = _this->debouncer.set_value(value, false);
   scheduler.removeCallbacks(_this);
   if (delay >= 0) {
@@ -23,7 +23,7 @@ void ArduinoGpioLinuxInputComponent::run() {
   }
 }
 
-static void ArduinoGpioLinuxInputComponent::changed(bool value, ArduinoGpioLinuxInputComponent* _this) {
+void ArduinoGpioLinuxInputComponent::changed(bool value, ArduinoGpioLinuxInputComponent* _this) {
   //This is called from debouncer.flush(), but no synchronization is required here
 //   interrupts();
   _this->changed(value);
