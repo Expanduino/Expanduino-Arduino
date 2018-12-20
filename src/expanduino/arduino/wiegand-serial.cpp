@@ -36,7 +36,7 @@ void ExpanduinoSubdeviceWiegandSerialArduino::begin() {
   for (int i=0; i<numWiegands; i++) {
     wiegands[i].buffer.flush();
     wiegands[i].wiegand.onReceive(receivedData, &wiegands[i].buffer);
-    wiegands[i].wiegand.begin(WIEGAND_LENGTH_AUTO);
+    wiegands[i].wiegand.begin(Wiegand::LENGTH_ANY, true);
     pinMode(wiegands[i].pin0, INPUT_PULLUP);
     pinMode(wiegands[i].pin1, INPUT_PULLUP);
     PcInt::attachInterrupt(wiegands[i].pin0, pin0StateChanged, &wiegands[i].wiegand, CHANGE, true);
