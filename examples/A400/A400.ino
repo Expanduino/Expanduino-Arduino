@@ -92,7 +92,7 @@ ExpanduinoSubdeviceKeypadLinuxInputArduino expanduinoKeypad(ExpanduinoI2C, "Keyp
 
 
 
-LiquidCrystal lcd(PIN_PH7, PIN_PG3, PIN_PG4,
+AsyncLiquidCrystal lcd(PIN_PH7, PIN_PG3, PIN_PG4,
                   PIN_PL0, PIN_PL1, PIN_PL2, PIN_PL6);
 ExpanduinoSubdeviceGpioLcdArduino expanduinoLcd(ExpanduinoI2C, "LCD", "lcd", lcd, PIN_PL3);
 
@@ -116,17 +116,7 @@ ArduinoWiegandComponent wiegands[] = {
 };
 ExpanduinoSubdeviceWiegandSerialArduino expanduinoWiegand(ExpanduinoI2C, "Wiegand", "wiegand", wiegands, ARRAY_SIZE(wiegands));
 
-
-int n=6;
-static void blink() {
-  digitalWrite(PIN_PG5, !digitalRead(PIN_PG5));
-  if (n-- >= 0 || true) {
-    scheduler.scheduleDelayed(blink, 100);
-  }
-}
-
 void setup() {
-  //scheduler.scheduleDelayed(blink, 100);
   ExpanduinoI2C.vendorName = "Veridis";
   ExpanduinoI2C.productName = "A400";
   ExpanduinoI2C.shortName = "a400";
@@ -136,4 +126,3 @@ void setup() {
 void loop() {
   ExpanduinoI2C.main_loop();
 }
-

@@ -7,10 +7,11 @@ ExpanduinoSubdeviceLcd::ExpanduinoSubdeviceLcd(Expanduino& container, const char
 void ExpanduinoSubdeviceLcd::dispatch(uint8_t opcode, Stream& request, Print& response) {
   switch (opcode) {
     case EXPANDUINO_CMD_LCD_CMD: {
+      uint8_t writeLen = 0;
       if (request.available()) {
-        uint8_t writeLen = this->sendCommands(request, request.available());
-        response.write(writeLen);
+        writeLen = this->sendCommands(request, request.available());
       }
+      response.write(writeLen);
       break;
     }    
     case EXPANDUINO_CMD_LCD_READ_TEXT: {
@@ -21,10 +22,11 @@ void ExpanduinoSubdeviceLcd::dispatch(uint8_t opcode, Stream& request, Print& re
       break;
     }
     case EXPANDUINO_CMD_LCD_WRITE_TEXT: {
+      uint8_t writeLen = 0;
       if (request.available()) {
-        uint8_t writeLen = this->writeText(request, request.available());
-        response.write(writeLen);
+        writeLen = this->writeText(request, request.available());
       }
+      response.write(writeLen);
       break;
     }
     case EXPANDUINO_CMD_LCD_GET_BRIGHTNESS: {

@@ -10,12 +10,13 @@ size_t PrintBuffer::write(uint8_t v) {
 }
 
 void ExpanduinoI2C_::wireOnReceive(int _) {
-  wireOutputBuffer.buffer.len = 0;
-
   //Received empty command  
   if (!Wire.available()) {
     return;
   }
+  
+  wireOutputBuffer.buffer.len = 0;
+  
   uint8_t cmd = Wire.read();
 
   uint8_t len = 0;  
